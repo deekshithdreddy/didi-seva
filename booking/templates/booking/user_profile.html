@@ -1,0 +1,14 @@
+{% extends 'booking/base.html' %}
+
+{% block content %}
+<div class="profile-container">
+    <h1>My Profile</h1>
+    <div class="profile-details">
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <!-- Add more profile details as needed -->
+    </div>
+    <a href="{% url 'edit_profile' %}" class="button">Edit Profile</a>
+</div>
+{% endblock %}

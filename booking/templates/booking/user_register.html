@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .register-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #6c5ce7;
+        }
+        .btn-register {
+            background-color: #6c5ce7;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .btn-register:hover {
+            background-color: #5649c0;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .error-message {
+            color: #dc3545;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="register-container">
+            <div class="form-header">
+                <h2>User Registration</h2>
+                <p>Create your account to book services</p>
+            </div>
+            
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                {% if messages %}
+                <div class="alert alert-success">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="id_first_name" class="form-label">First Name</label>
+                        <input type="text" name="first_name" class="form-control" id="id_first_name" required>
+                        {% if form.first_name.errors %}
+                        <div class="error-message">{{ form.first_name.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="id_last_name" class="form-label">Last Name</label>
+                        <input type="text" name="last_name" class="form-control" id="id_last_name" required>
+                        {% if form.last_name.errors %}
+                        <div class="error-message">{{ form.last_name.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_username" class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" id="id_username" required>
+                    {% if form.username.errors %}
+                    <div class="error-message">{{ form.username.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_email" class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" id="id_email" required>
+                    {% if form.email.errors %}
+                    <div class="error-message">{{ form.email.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_phone" class="form-label">Phone Number</label>
+                    <input type="text" name="phone" class="form-control" id="id_phone" required>
+                    {% if form.phone.errors %}
+                    <div class="error-message">{{ form.phone.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_address" class="form-label">Address</label>
+                    <textarea name="address" class="form-control" id="id_address" rows="3" required></textarea>
+                    {% if form.address.errors %}
+                    <div class="error-message">{{ form.address.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_profile_pic" class="form-label">Profile Picture (Optional)</label>
+                    <input type="file" name="profile_pic" class="form-control" id="id_profile_pic">
+                    {% if form.profile_pic.errors %}
+                    <div class="error-message">{{ form.profile_pic.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_password1" class="form-label">Password</label>
+                    <input type="password" name="password1" class="form-control" id="id_password1" required>
+                    {% if form.password1.errors %}
+                    <div class="error-message">{{ form.password1.errors }}</div>
+                    {% endif %}
+                    <div class="form-text">
+                        {{ form.password1.help_text }}
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_password2" class="form-label">Confirm Password</label>
+                    <input type="password" name="password2" class="form-control" id="id_password2" required>
+                    {% if form.password2.errors %}
+                    <div class="error-message">{{ form.password2.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-register">Register</button>
+            </form>
+            
+            <div class="login-link">
+                Already have an account? <a href="{% url 'user_login' %}">Login here</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

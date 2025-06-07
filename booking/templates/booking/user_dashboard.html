@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .dashboard-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .profile-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+        .welcome-text {
+            color: #6c5ce7;
+        }
+        .nav-pills .nav-link.active {
+            background-color: #6c5ce7;
+        }
+        .nav-pills .nav-link {
+            color: #6c5ce7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4 rounded">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Maid Service</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Book a Service</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">My Bookings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Profile</a>
+                        </li>
+                    </ul>
+                    <div class="d-flex">
+                        <a href="{% url 'user_logout' %}" class="btn btn-outline-danger">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dashboard-container">
+            <div class="profile-section">
+                {% if customer.profile_pic %}
+                <img src="{{ customer.profile_pic.url }}" alt="Profile Picture" class="profile-pic">
+                {% else %}
+                <img src="https://via.placeholder.com/100" alt="Default Profile" class="profile-pic">
+                {% endif %}
+                <div>
+                    <h2 class="welcome-text">Welcome, {{ request.user.first_name }} {{ request.user.last_name }}</h2>
+                    <p>{{ customer.address }}</p>
+                </div>
+            </div>
+
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-overview-tab" data-bs-toggle="pill" data-bs-target="#pills-overview" type="button" role="tab">Overview</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-bookings-tab" data-bs-toggle="pill" data-bs-target="#pills-bookings" type="button" role="tab">My Bookings</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-settings-tab" data-bs-toggle="pill" data-bs-target="#pills-settings" type="button" role="tab">Settings</button>
+                </li>
+            </ul>
+            
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-overview" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card text-center mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">0</h5>
+                                    <p class="card-text">Active Bookings</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">0</h5>
+                                    <p class="card-text">Completed Services</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">0</h5>
+                                    <p class="card-text">Reviews Given</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5>Available Services</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">House Cleaning</h5>
+                                            <p class="card-text">Regular cleaning services for your home</p>
+                                            <a href="#" class="btn btn-primary">Book Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">Deep Cleaning</h5>
+                                            <p class="card-text">Thorough cleaning of your entire home</p>
+                                            <a href="#" class="btn btn-primary">Book Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">Laundry Service</h5>
+                                            <p class="card-text">Washing, drying, and folding clothes</p>
+                                            <a href="#" class="btn btn-primary">Book Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-pane fade" id="pills-bookings" role="tabpanel">
+                    <div class="alert alert-info">
+                        You don't have any bookings yet. <a href="#">Book a service now!</a>
+                    </div>
+                </div>
+                
+                <div class="tab-pane fade" id="pills-settings" role="tabpanel">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Account Settings</h5>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" value="{{ request.user.email }}" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Phone</label>
+                                    <input type="text" class="form-control" value="{{ customer.phone }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Address</label>
+                                    <textarea class="form-control" rows="3">{{ customer.address }}</textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Profile</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

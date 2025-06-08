@@ -1,0 +1,84 @@
+{% extends 'booking/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    {% if maid.profile_pic %}
+                    <img src="{{ maid.profile_pic.url }}" alt="Profile Picture" class="img-fluid rounded-circle mb-3" style="max-width: 150px;">
+                    {% else %}
+                    <img src="https://via.placeholder.com/150" alt="Profile Picture" class="img-fluid rounded-circle mb-3">
+                    {% endif %}
+                    <h4>{{ maid.user.first_name }} {{ maid.user.last_name }}</h4>
+                    <p class="text-muted">{{ maid.services }}</p>
+                    <p><i class="fas fa-phone me-2"></i>{{ maid.phone }}</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>{{ maid.address }}</p>
+                    <p><i class="fas fa-star me-2"></i>{{ maid.experience }} years experience</p>
+                    <p><i class="fas fa-dollar-sign me-2"></i>${{ maid.hourly_rate }} per hour</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">My Service Requests</h4>
+                </div>
+                <div class="card-body">
+                    {% if bookings %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Client</th>
+                                        <th>Service Type</th>
+                                        <th>Request Date</th>
+                                        <th>Service Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for booking in bookings %}
+                                    <tr>
+                                        <td>{{ booking.customer.user.first_name }} {{ booking.customer.user.last_name }}</td>
+                                        <td>{{ booking.get_service_type_display|default:"Cleaning" }}</td>
+                                        <td>{{ booking.booking_date|date:"M d, Y" }}</td>
+                                        <td>{{ booking.service_date|date:"M d, Y H:i" }}</td>
+                                        <td>
+                                            <span class="badge {% if booking.status == 'pending' %}bg-warning{% elif booking.status == 'accepted' %}bg-success{% elif booking.status == 'rejected' %}bg-danger{% elif booking.status == 'completed' %}bg-info{% else %}bg-secondary{% endif %}">
+                                                {{ booking.status|title }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {% if booking.status == 'pending' %}
+                                            <div class="btn-group">
+                                                <form method="post" action="{% url 'accept_booking' booking.id %}" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm btn-success me-1">Accept</button>
+                                                </form>
+                                                <form method="post" action="{% url 'reject_booking' booking.id %}" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm btn-danger">Reject</button>
+                                                </form>
+                                            </div>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            You don't have any service requests yet.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'booking/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Welcome to Your Dashboard</h1>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Your Profile
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ customer.user.first_name }} {{ customer.user.last_name }}</h5>
+                    <p class="card-text">Email: {{ customer.user.email }}</p>
+                    <p class="card-text">Phone: {{ customer.phone }}</p>
+                    <p class="card-text">Address: {{ customer.address }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Quick Links
+                </div>
+                <div class="card-body">
+                    <a href="{% url 'maid_listings' %}" class="btn btn-primary">Browse Services</a>
+                    <a href="{% url 'user_bookings' %}" class="btn btn-success">My Bookings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
